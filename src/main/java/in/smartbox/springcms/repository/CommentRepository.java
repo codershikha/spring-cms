@@ -1,5 +1,5 @@
 package in.smartbox.springcms.repository;
 
-public class CommentRepository {
+public interface CommentRepository {
 
 }
