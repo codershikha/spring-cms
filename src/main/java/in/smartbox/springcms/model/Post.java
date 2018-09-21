@@ -1,43 +1,59 @@
 package in.smartbox.springcms.model;
 
-import java.util.Date;
-import javax.persistence.*;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import org.springframework.data.annotation.CreatedDate;
-import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@Table(name = "Post")
+@Table(name = "post")
+@JsonTypeInfo(use=JsonTypeInfo.Id.MINIMAL_CLASS, include=JsonTypeInfo.As.PROPERTY)
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+//@JsonIgnoreProperties("comment")
 public class Post {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PostId", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "postId", nullable = false, updatable = false)
 	private Long id;
-
-	@Column(name = "Content", nullable = false, updatable = false)
-	private String content;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created_at", nullable = false, updatable = false)
-	@CreatedDate
-	private Date createdAt;
-
+	
+	//@JsonManagedReference
+	//@JsonBackReference
 	@ManyToOne
+	@JoinColumn(name = "authorId", nullable = false)
 	private Author author;
-
+   
+	
+	//@JsonManagedReference
+	//@JsonBackReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
 	private List<Comment> comments;
 
 	@Size(max = 100)
 	@Column(unique = true)
 	private String title;
-
-	public long getId() {
+	
+	@Column(name = "content", nullable = false, updatable = false)
+	private String content;
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -53,16 +69,24 @@ public class Post {
 		return title;
 	}
 
-	public void setTitle(String content) {
-		this.content = content;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
+	public Author getAuthor() {
+		return author;
 	}
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 
 }

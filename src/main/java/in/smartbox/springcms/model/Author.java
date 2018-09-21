@@ -1,7 +1,9 @@
 package in.smartbox.springcms.model;
 
-import java.util.Date;
+
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,55 +12,48 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.springframework.data.annotation.CreatedDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
    
     @Entity
-    @Table(name="Author")
+    @Table(name="author")
+    @JsonTypeInfo(use=JsonTypeInfo.Id.MINIMAL_CLASS, include=JsonTypeInfo.As.PROPERTY)
+    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+   // @JsonIgnoreProperties("post")
    public class Author {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="AuthorId", unique=true, nullable=false)
-    private Long Id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name="authorId", unique=true, nullable=false)
+    private Long id;
 	
 	
-	@Column(name="AuthorName", unique=true, nullable=false)
-	private String Name;
+	@Column(name="authorName", unique=true, nullable=false)
+	private String name;
 	
-    @Column(name="Email", nullable=false)
+    @Column(name="email", nullable=false)
     private String email;
-	 
-	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false, updatable = false)
-    @CreatedDate
-    private Date createdAt;
 	
 
-	@JsonIgnore
+    
+    
+   //@JsonBackReference
+   
+   // @JsonManagedReference
+    //@JsonIgnore
     @OneToMany( mappedBy = "author",  cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
     private Set<Post> post;
    
 	
     
-    public long getId() {
-        return Id;
-    }
- 	
-    public void setId(long Id) {
-        this.Id = Id;
-    }
     public String getName() {
-        return Name;
+        return name;
     }
  
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -68,14 +63,24 @@ import javax.persistence.*;
     public void setEmail(String email) {
         this.email = email;
     }
-    
-     public Date getCreatedAt() {
-        return createdAt;
-    }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Set<Post> getPost() {
+		return post;
+	}
+
+	public void setPost(Set<Post> post) {
+		this.post = post;
+	}
+    
+     
 
 
 }
