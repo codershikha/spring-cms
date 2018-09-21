@@ -2,7 +2,6 @@ package in.smartbox.springcms.model;
 
 
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,17 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
    
     @Entity
     @Table(name="author")
-    @JsonTypeInfo(use=JsonTypeInfo.Id.MINIMAL_CLASS, include=JsonTypeInfo.As.PROPERTY)
-    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
-   // @JsonIgnoreProperties("post")
-   public class Author {
+  @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+    public class Author {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
