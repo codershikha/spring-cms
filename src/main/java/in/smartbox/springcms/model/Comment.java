@@ -8,7 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -22,7 +24,6 @@ public class Comment {
     private Long id;
 	
     
-   
     @Column(name="commentContent", nullable=false)
      private String content;
     
@@ -32,9 +33,13 @@ public class Comment {
     private Date createdAt;
 */
 
+	@Column(name="userName", unique=true, nullable=false)
+	private String name;
 	
-    //@JsonManagedReference
-   @ManyToOne
+    
+
+	//@JsonManagedReference
+     @ManyToOne
 	@JoinColumn(name = "post_id", nullable = false)
     private Post post;
     
@@ -55,6 +60,12 @@ public class Comment {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Post getPost() {
 		return post;

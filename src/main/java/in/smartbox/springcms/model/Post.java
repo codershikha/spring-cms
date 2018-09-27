@@ -1,7 +1,6 @@
 package in.smartbox.springcms.model;
 
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,12 +13,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "post")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
-//@JsonIgnoreProperties("comment")
+
 public class Post {
 
 	@Id
@@ -27,18 +27,21 @@ public class Post {
 	@Column(name = "postId", nullable = false, updatable = false)
 	private Long id;
 	
+	//@JsonIgnore
+	//@JsonManagedReference
+	//@JsonBackReference
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+	private List<Comment> comments;
+    
+	
+
 	//@JsonManagedReference
 	//@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "authorId", nullable = false)
 	private Author author;
-   
+     
 	
-	//@JsonManagedReference
-	//@JsonBackReference
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
-	private List<Comment> comments;
-
 	@Size(max = 100)
 	@Column(unique = true)
 	private String title;

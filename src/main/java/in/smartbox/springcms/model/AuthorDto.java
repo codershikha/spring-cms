@@ -14,11 +14,12 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-   
-    @Entity
-    @Table(name="author")
-    @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
-    public class Author {
+ 
+
+@Entity
+@Table(name="authorDto")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+public class AuthorDto {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -28,55 +29,25 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 	
 	@Column(name="authorName", unique=true, nullable=false)
 	private String name;
-	
-    @Column(name="email", nullable=false)
-    private String email;
-	
 
-    
-    
-   //@JsonBackReference
-   
-   // @JsonManagedReference
-   // @JsonIgnore
-    @OneToMany( mappedBy = "author",  cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
-    private Set<Post> post;
-   
-	
-    
-    public String getName() {
-        return name;
-    }
- 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
- 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
 	public Long getId() {
 		return id;
 	}
 
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Set<Post> getPost() {
-		return post;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setPost(Set<Post> post) {
-		this.post = post;
-	}
-    
-     
 
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }
